@@ -1,18 +1,3 @@
-## R_ÙYÁÏ¿ÆŒW³ÌÊ½ÔOÓ‹
-
-### week_1
-
-- course_1
-    - practice_1.R
-    - practice_2.R
-    - practice_3.R
-- task_1_question
-    - hw_1_question.R
-    
-- week_1ÈÎ„Õ
-    - ½¨Á¢‚€ÈË`GithubŽ¤Ì–`
-    - ½¨Á¢±¾Õn³ÌŒ£ÓÃ`Repository`
-    - ÔÚÔ“ repository ®”ÖÐÉÏ‚÷½¨Á¢Ò»ÃüÃûžé `week_1(or task_1, hw_1)`µÄÙYÁÏŠA
-    - ì¶`Ô“ÙYÁÏŠA`ÖÐ£¬ÉÏ‚÷±¾ÖÜ¾šÁ•µÄ`³É¹û™n°¸(ex: hw_1_answers.R)`
-    - ƒÈÈÝ²»ÏÞ¶¨ÒªÍê³É¶àÉÙî}£¬Ö»ÊÇÏ£ÍûÍ¬ŒW‚ƒÄÜÔÚÉÔÎ¢ÊìÏ¤ R ÕZÑÔáá£¬ßMÐÐÒ»Ð©¾šÁ•
-    - ì¶ 2018/9/20 ÕnÌÃÇ°ÉÏ‚÷¼´¿É¡£
+## NTU R_èµ„æ–™ç§‘å­¦ç¨‹åºè®¾è®¡
+#2018å¹´9æœˆå°æ¹¾ç§‘æŠ€å¤§å­¦å¤§å­¦äº¤æµæœŸé—´äºŽå°æ¹¾å¤§å­¦ä¿®ä¹ 
+åˆè‚¥å·¥ä¸šå¤§å­¦ è®¡ç®—æœºç§‘å­¦ä¸ŽæŠ€æœ¯ 2016çº§ æ´ªä¸–è±ª

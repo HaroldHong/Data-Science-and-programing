@@ -1,4 +1,4 @@
-## R_�Y�ϿƌW��ʽ�OӋ
+## R_資料科學程式設計
 
 ### week_1
 
@@ -9,10 +9,5 @@
 - task_1_question
     - hw_1_question.R
     
-- week_1�΄�
-    - ��������`Github��̖`
-    - �������n�̌���`Repository`
-    - ��ԓ repository �����ς�����һ������ `week_1(or task_1, hw_1)`���Y�ϊA
-    - �`ԓ�Y�ϊA`�У��ς����ܾ�����`�ɹ��n��(ex: hw_1_answers.R)`
-    - ���ݲ��޶�Ҫ��ɶ����}��ֻ��ϣ��ͬ�W��������΢��Ϥ R �Z���ᣬ�M��һЩ����
-    - � 2018/9/20 �n��ǰ�ς����ɡ�
+- 第一次上课主要是创建GitHub和课程的repository，课堂上有一点没有跟上节奏，但是课后翻阅论坛和阅读NTU Cool 里面的补充文档，学会了GitHub的基本操作
+- 跟着practice，熟悉了R语言的基本语法，在网上下载了《R语言实战》电子书，配合书籍和文档渐渐上手R语言
