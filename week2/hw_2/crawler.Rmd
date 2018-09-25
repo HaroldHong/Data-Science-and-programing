@@ -1,0 +1,58 @@
+---
+title: "course2"
+output: html_document
+---
+# 杭州市滨江区租房信息
+
+##RCrawler
+```{r }
+library('xml2')
+library('rvest')
+library("knitr")
+#tables:yes
+
+url <- "https://hz.lianjia.com/zufang/binjiang/pg"
+
+house_info <- data.frame()
+
+for(i in 1:10){
+  
+  print(paste(url,i,"rd1/",sep=""))
+  web <- read_html(paste(url,i,"/",sep=""),encoding="UTF-8")
+  
+  #房屋的简介
+  house_descr <- html_nodes(web,"h2 a")
+  house_descr_info <- html_text(house_descr)
+
+  #房屋的小区名
+  house_estate <- html_nodes(web,".region")
+  house_estate_info <- html_text(house_estate)
+
+  #房屋的结构规格
+  house_structure <- html_nodes(web,".zone span")
+  house_structure_info <- html_text(house_structure)
+
+  #房屋的面积
+  house_size <- html_nodes(web,".meters")
+  house_size_info <- html_text(house_size)
+
+  #房屋的朝向
+  house_orientation <- html_nodes(web,".meters+ span")
+  house_orientation_info <- html_text(house_orientation)
+  
+  #房屋的月租
+  house_price <- html_nodes(web,".price")
+  house_price_info <- html_text(house_price)
+  
+  #创建数据框
+  house <- data.frame(house_estate_info,house_descr_info,house_structure_info,house_orientation_info,house_size_info,house_price_info)
+  house_info <- rbind(house_info,house)
+}
+names(house_info)[1:6]<-c("小区","简介","房屋结构","朝向","面积","月租")
+dim(iris)
+```
+
+##Show Results
+```{r}
+kable(house_info,format = "markdown",caption = "杭州滨江区房租统计")
+```
