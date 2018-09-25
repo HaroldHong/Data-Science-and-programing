@@ -8,4 +8,4 @@ https://haroldhong.github.io/Data-Science-and-programing/week2/hw_2/crawler.html
 - 课堂
 在课堂上学习了详细的操作步骤，怎么从找class，怎么找url，怎么从Chrome的检查元素里面看是要用json还是css还是其他。学到了在R语言中library语句执行前还要先install，课前以为markdown要另外下载编辑器，原来就在RStudio里面。跟着课件里的范例做了个小的爬虫，但是后来因为readme的格式问题(不是utf-8编码)，导致一直没法生成GitHub的URL，所以没能展示，有点遗憾。
 - 课后
-因对杭州这座城市很是喜爱，所以很好奇它房租的数据(https://hz.lianjia.com/zufang/binjiang/pg1/)。在其他博客上学到Chrome有个SelectorGadget的插件，用来挑出class真的非常方便！我用的是rvest，一切按部就班地写好后我先是生成.csv文件，发现很多栏有<U00A0><U00A0>的字样。明显是ASCII码但是我没有多想，上来就是字符替换，删除等，但都失败了，查资料才知道是html里的空格(不换行空格)，果然在后来做出RMarkdown和html文件后，在网站上打开<U00A0>就消失了。但我还是想请教下，怎样去掉csv文件里的<U00A0>。
+因对杭州这座城市很是喜爱，所以很好奇它房租的数据(https://hz.lianjia.com/zufang/binjiang/pg1/ )。  在其他博客上学到Chrome有个SelectorGadget的插件，用来挑出class真的非常方便！我用的是rvest，一切按部就班地写好后我先是生成.csv文件，发现很多栏有<U00A0><U00A0>的字样。明显是ASCII码但是我没有多想，上来就是字符替换，删除等，但都失败了，查资料才知道是html里的空格(不换行空格)，果然在后来做出RMarkdown和html文件后，在网站上打开<U00A0>就消失了。但我还是想请教下，怎样去掉csv文件里的<U00A0>。
