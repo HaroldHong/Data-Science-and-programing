@@ -1,6 +1,6 @@
 ---
-title: "Untitled"
-author: "ggplot2"
+title: "ggplot2 homework"
+author: "洪世豪"
 date: "2018年9月29日"
 output: html_document
 ---
