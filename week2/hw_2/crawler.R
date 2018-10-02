@@ -14,25 +14,25 @@ for(i in 1:10){
   #房屋的简介
   house_descr <- html_nodes(web,"h2 a")
   house_descr_info <- html_text(house_descr)
-
+  
   #房屋的小区名
   house_estate <- html_nodes(web,".region")
   house_estate_info <- html_text(house_estate)
-
+  
   #房屋的结构规格
   house_structure <- html_nodes(web,".zone span")
   house_structure_info <- html_text(house_structure)
-
+  
   #房屋的面积
   house_size <- html_nodes(web,".meters")
   house_size_info <- html_text(house_size)
-
+  
   #房屋的朝向
   house_orientation <- html_nodes(web,".meters+ span")
   house_orientation_info <- html_text(house_orientation)
   
   #房屋的月租
-  house_price <- html_nodes(web,".price")
+  house_price <- html_nodes(web,".price .num")
   house_price_info <- html_text(house_price)
   
   #创建数据框
