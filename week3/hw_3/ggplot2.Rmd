@@ -65,7 +65,6 @@ theme_set(theme_classic())
 
 g <- ggplot(data_select,aes(平米月租)) + scale_fill_brewer(palette = "Spectral") + 
   geom_histogram(aes(fill = 房屋结构),
-                 bindwidth = .1,
                  col = "black",
                  size = .1) 
 plot(g)

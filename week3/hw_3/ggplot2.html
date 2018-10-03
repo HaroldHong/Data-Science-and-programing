@@ -247,11 +247,9 @@ ggMarginal(g, type = &quot;histogram&quot;, fill = &quot;transparent&quot;)</cod
 
 g &lt;- ggplot(data_select,aes(平米月租)) + scale_fill_brewer(palette = &quot;Spectral&quot;) + 
   geom_histogram(aes(fill = 房屋结构),
-                 bindwidth = .1,
                  col = &quot;black&quot;,
-                 size = .1) </code></pre>
-<pre><code>## Warning: Ignoring unknown parameters: bindwidth</code></pre>
-<pre class="r"><code>plot(g)</code></pre>
+                 size = .1) 
+plot(g)</code></pre>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <pre><code>## Warning in RColorBrewer::brewer.pal(n, pal): n too large, allowed maximum for palette Spectral is 11
 ## Returning the palette you asked for with that many colors</code></pre>
