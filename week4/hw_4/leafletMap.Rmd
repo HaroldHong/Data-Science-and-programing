@@ -4,7 +4,7 @@ author: "Harold洪世豪"
 date: "2018年10月10日"
 output: html_document
 ---
-
+本次交互式地图的主题是San Fransico的犯罪类型标识，共标识100例犯罪记录
 ```{r}
 library(ggmap)
 library(ggplot2)
