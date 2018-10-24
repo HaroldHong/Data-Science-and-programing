@@ -1,0 +1,140 @@
+---
+title: "GoldNews"
+author: "Harold洪世豪"
+date: "2018年10月24日"
+output: html_document
+---
+**这次包括以后几周的主题是想抓出9月份有关黄金走势的新闻，对照黄金走势图，看看今天的新闻能不能预兆出明天是涨还是跌。**
+
+资料的抓取和整理占据了大部分的时间和精力，我从新浪网的财经频道以黄金为关键字，固定日期为9月1日，搜索当天所有有关黄金的新闻。然后爬取9月1日至30日所有新闻的url，以日期为单位建立了30份CSV档案，每份csv都是十多个url。
+
+```{r,eval=FALSE}
+library(XML)
+library(xml2)
+library(rvest)
+library(dplyr)
+library(stringr)
+
+  collecturl1 <- function(i){
+  srcURL <- paste("http://search.sina.com.cn/?c=news&q=%BB%C6%BD%F0&range=all&time=custom&stime=2018-09-0",i,"&etime=2018-09-0",i,"&num=20&col=1_7&source=&from=&country=&size=&a=&sort=rel",sep = "")
+  srcURL
+  u1 <- htmlParse(srcURL,encoding = 'UTF-8')
+  url <- xpathApply(u1,'//div[@class="box-result clearfix"]/*/*/a',xmlAttrs)
+  URL <- unlist(lapply(url,str_extract_all,'http://finance\\S+'))
+  goldNews <- data.frame(URL)
+  csvpath <- paste("C://Users//Harold//Documents//GitHub//Data-Science-and-programing//week5//news_09",i,".csv",sep = "")
+  write.csv(goldNews,file = csvpath,row.names = F)
+}
+  mapply(collecturl1,5)
+  
+  collecturl2 <- function(i){
+  srcURL <- paste("http://search.sina.com.cn/?c=news&q=%BB%C6%BD%F0&range=all&time=custom&stime=2018-09-",i,"&etime=2018-09-",i,"&num=20&col=1_7&source=&from=&country=&size=&a=&sort=rel",sep = "")
+  print(srcURL)
+  u1 <- htmlParse(srcURL,encoding = 'UTF-8')
+  url <- xpathApply(u1,'//div[@class="box-result clearfix"]/*/*/a',xmlAttrs)
+  URL <- unlist(lapply(url,str_extract_all,'http://finance\\S+'))
+  goldNews <- data.frame(URL)
+  csvpath <- paste("C://Users//Harold//Documents//GitHub//Data-Science-and-programing//week5//news_09",i,".csv",sep = "")
+  write.csv(goldNews,file = csvpath,row.names = F)
+  }
+  mapply(collecturl2,27)
+
+
+
+```
+
+
+再继续爬取每个新闻网站的具体内容，相同日期的新闻放在同一个txt档中。将这30个文档人肉分成“涨”和“跌”两个资料夹，但是里面存放的是涨的前一天的新闻，比如，第n天是涨，那么第n-1天的新闻会放在rise资料夹里。
+
+```{r,eval=FALSE}
+
+library('xml2')
+library('rvest')
+library('dplyr')
+
+collectTEXT <- function(url,i){
+  url_char <- as.character(url)
+  print(url_char)
+  
+  web <- read_html(url_char,encoding = 'UTF-8')
+  text_node <- html_nodes(web,"#artibody p")
+  text_info <- html_text(text_node)
+  filepath <- paste("C:\\Users\\Harold\\Documents\\GitHub\\Data-Science-and-programing\\week5\\text09",i,".txt",sep = "")
+  cat(text_info, file = filepath,append = TRUE)
+  
+}
+traverseTEXT <- function(i){
+  urlSetPath = "C:\\Users\\Harold\\Documents\\GitHub\\Data-Science-and-programing\\week5\\news_09"
+    urlSetPath <- paste(urlSetPath,i,".csv",sep = "")
+  urlframe <- read.csv(urlSetPath)
+  mapply(collectTEXT,urlframe$URL,i)
+}
+mapply(traverseTEXT,1:30)
+
+
+```
+对跌的新闻进行词频分析
+```{r }
+library(NLP)
+library(tm)
+library(stats)
+library(proxy)
+library(dplyr)
+library(readtext)
+library(jiebaRD)
+library(jiebaR)
+library(slam)
+library(Matrix)
+library(tidytext)
+
+topsort <- function(x,num = 0)
+{
+  top <- count(x);
+  top <- top[order(top$freq,decreasing = T),]
+  if(num > 0){
+    return(top[1:num,])
+  }
+  else return(top)
+}
+
+
+
+docs <- Corpus(DirSource("C:\\Users\\Harold\\Documents\\GitHub\\Data-Science-and-programing\\week5\\text\\decline"),readerControl = list(language = "zho"))
+
+
+#docs <- tm_map(docs,toSpace, "黄金")
+docs <- tm_map(docs,stripWhitespace)
+docs <- tm_map(docs,removeNumbers)
+docs <- tm_map(docs,stripWhitespace)
+docs <- tm_map(docs,stripWhitespace)
+
+
+mixseg = worker(stop_word = "C:\\Users\\Harold\\Documents\\GitHub\\Data-Science-and-programing\\week5\\mystopwords.txt")
+
+jieba_tokenizer = function(d){
+  unlist(segment(d[[1]], jiebar = mixseg))
+}
+seg = lapply(docs, jieba_tokenizer)
+
+freq_fram <- as.data.frame(table(unlist(seg)))
+freq_fram <- freq_fram[order(freq_fram$Freq,decreasing = T),]
+#剔除单个字符
+freq_fram <- freq_fram[-which(nchar(as.character(freq_fram$Var1))==1),]
+
+d.corpus <- Corpus(VectorSource(seg))
+s.dtm <- TermDocumentMatrix(d.corpus)
+inspect(s.dtm)
+
+tf <- apply(s.dtm,2,sum)
+
+library(RColorBrewer)
+library(wordcloud2)
+m1 <- as.matrix(s.dtm)
+v <- sort(rowSums(m1),decreasing = T)
+d <- data.frame(word = names(v),freq = v)
+
+seg.unlist <- unlist(seg)
+wordcloud2(freq_fram,size = 0.9,fontFamily = '微软雅黑')
+
+
+```

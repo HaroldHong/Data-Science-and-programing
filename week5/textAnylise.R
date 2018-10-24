@@ -19,4 +19,4 @@ traverseTEXT <- function(i){
   urlframe <- read.csv(urlSetPath)
   mapply(collectTEXT,urlframe$URL,i)
 }
-mapply(traverseTEXT,27:30)
+mapply(traverseTEXT,1:30)

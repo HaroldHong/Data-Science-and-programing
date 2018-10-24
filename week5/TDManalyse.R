@@ -20,12 +20,12 @@ docs <- tm_map(docs, removePunctuation)
 docs <- tm_map(docs, removeNumbers)
 docs <- tm_map(docs, stripWhitespace)
 docs <- tm_map(docs, toSpace, "[a-zA-Z]")
-
+View(docs)
 # words cut
 # keywords = read.csv("keywords.csv")
  mixseg = worker()
 # keys = as.matrix(keywords)
-# new_user_word(mixseg, keys)
+ new_user_word(mixseg, keys)
 
 jieba_tokenizer = function(d){
   unlist(segment(d[[1]], mixseg))
