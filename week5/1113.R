@@ -70,6 +70,8 @@ for(x in 1:nrow(tdm))
 }
 findZeroId  = as.matrix(apply(doc.tfidf,1,sum))
 tfidfnn = doc.tfidf[-which(findZeroId ==0),]
+tfidfnn <- tfidfnn[order(tfidfnn[,1],decreasing = T),]
 write.csv(tfidfnn,"show.csv")
+head(tfidfnn,10)
 
 

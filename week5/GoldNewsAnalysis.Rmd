@@ -64,7 +64,7 @@ collectTEXT <- function(url,i){
   
 }
 traverseTEXT <- function(i){
-  urlSetPath = "C:\\Users\\Harold\\Documents\\GitHub\\Data-Science-and-programing\\week5\\news_09"
+  urlSetPath = "C:\\Users\\Harold\\Documents\\GitHub\\Data-Science-and-programing\\week5\\news_0927"
     urlSetPath <- paste(urlSetPath,i,".csv",sep = "")
   urlframe <- read.csv(urlSetPath)
   mapply(collectTEXT,urlframe$URL,i)
@@ -138,4 +138,88 @@ wordcloud2(freq_fram,size = 0.9,fontFamily = '微软雅黑')
 
 
 ```
-黄金下跌前，新闻编辑多在讨论美元和美联储加息，诡异的是也在讨论反弹和上涨。
+黄金下跌前，新闻编辑多在讨论美元和美联储加息，诡异的是也在讨论反弹和上涨。<br>
+
+接下来做tf-idf分析：
+```{r}
+library(NLP)
+library(tm)
+library(stats)
+library(proxy)
+library(dplyr)
+library(readtext)
+library(jiebaRD)
+library(jiebaR)
+library(slam)
+library(Matrix)
+library(tidytext)
+topsort <- function(x,num = 0)
+{
+  top <- count(x);
+  top <- top[order(top$freq,decreasing = T),]
+  if(num > 0){
+    return(top[1:num,])
+  }
+  else return(top)
+}
+#define function toSpace
+toSpace <- content_transformer(
+  function(x, pattern) gsub(pattern, " ", x))
+
+
+
+
+docs.corpus <- Corpus(DirSource("C:\\Users\\Harold\\Documents\\GitHub\\Data-Science-and-programing\\week5\\text\\total"),readerControl = list(language = "zho"))
+
+docs.corpus <- tm_map(docs.corpus,toSpace, "黄金")
+docs.corpus <- tm_map(docs.corpus,stripWhitespace)
+docs.corpus <- tm_map(docs.corpus,removeNumbers)
+docs.corpus <- tm_map(docs.corpus,toSpace,"[a-zA-Z]")
+#import dictionary
+keywords <- read.csv("FinanceCorpusCH.csv",header = FALSE, encoding = "utf-8")
+mixseg = worker()
+keys <- as.matrix(keywords)
+new_user_word(mixseg,keys)
+
+jieba_tokenizer = function(d){
+  unlist(segment(d[[1]], jiebar = mixseg))
+}
+seg = lapply(docs.corpus, jieba_tokenizer)
+freq_fram <- as.data.frame(table(unlist(seg)))
+
+n = length(seg)
+colnames <- names(seg)
+colnames <- gsub(".txt","",colnames)
+freq_fram <- freq_fram[order(freq_fram$Freq,decreasing = T),]
+#剔除单个字符
+freq_fram <- freq_fram[-which(nchar(as.character(freq_fram$Var1))==1),]
+
+d.corpus <- Corpus(VectorSource(seg))
+tdm <- TermDocumentMatrix(d.corpus)
+#print(tf <- as.matrix(tdm))
+DF <- tidy(tf)
+
+#tf-idf computation
+N = tdm$ncol
+tf <- apply(tdm,2,sum)
+idfCal <- function(word_doc)
+{
+  log2(N/nnzero(word_doc))
+}
+idf <- apply(tdm,1,idfCal)
+doc.tfidf <- as.matrix(tdm)
+for(x in 1:nrow(tdm))
+{
+  for(y in 1:ncol(tdm))
+  {
+    doc.tfidf[x,y] <- (doc.tfidf[x,y]/tf[y]) * idf[x]
+  }
+}
+findZeroId  = as.matrix(apply(doc.tfidf,1,sum))
+tfidfnn = doc.tfidf[-which(findZeroId ==0),]
+tfidfnn <- tfidfnn[order(tfidfnn[,1],decreasing = T),]
+#write.csv(tfidfnn,"show.csv")
+head(tfidfnn,10)
+
+```
+有代表性的词语里，金融类的有 存托，凭证，沪伦通；汽车相关有 乙醇，乙醇汽油，顺风，车主；企业相关有 万达。很意外黄金走势分析师会在这些方面有见解，可能很多金融分析术语大家都有讲在idf过滤掉了。可能有domain knowledge的话会更有故事可以讲。
