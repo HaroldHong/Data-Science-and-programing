@@ -1,9 +1,8 @@
 ﻿## NTU R_资料科学程序设计
 2018年9月台湾科技大学大学交流期间于台湾大学修习
 合肥工业大学 计算机科学与技术 2016级 洪世豪
-
+作业链接： 
 https://haroldhong.github.io/Data-Science-and-programing/week5/GoldNewsAnalysis.html
-
 
 - 课堂
 在课上老师举例是公司年报内容和其对应时间的股价的关系，对理财多少有点兴趣的我也想看看能否用数据科学来帮助投资理财，
